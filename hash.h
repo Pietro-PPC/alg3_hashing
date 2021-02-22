@@ -12,7 +12,10 @@ typedef struct cHash_s {
     long int t2[SIZE];
 } cHash_t;
 
-// Definição da struct de output
+// Definição da struct de output.
+// v[i][0] - chave na posição i do vetor de output;
+// v[i][1] - tabela da chave na posição i do vetor de output;
+// v[i][2] - posição que a chave está na sua tabela cuckoo hash.
 typedef struct output_s {
     long int v[2*SIZE][3];
     int s;

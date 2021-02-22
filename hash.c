@@ -25,25 +25,6 @@ int h2(long int k)
     return floor(SIZE * (k*0.9 - floor(k*0.9)));
 }
 
-void insert_key(cHash_t *t, long int key)
-// Insere chave 'key' na struct de cuckoo hash.
-// *MUDAR* ignorar chaves duplicadas
-{
-    // Cálculo do endereço da chave caso ela seja inserida em T1.
-    long int *t1_pos = t->t1 + h1(key); 
-
-    if (*t1_pos == -1 || *t1_pos == -2) // *MUDAR* deixar < 0
-        *t1_pos = key;
-    else
-    {
-        // Cálculo do endereço da chave caso ela seja inserida em T2.
-        long int *t2_pos = t->t2 + h2(*t1_pos);
-
-        *t2_pos = *t1_pos;
-        *t1_pos = key;
-    }
-}
-
 long int *search_key(cHash_t *t, long int key)
 // Procura chave 'key' e retorna endereço dela, caso exista no hash.
 // Caso contrário, retorna NULL
@@ -63,6 +44,25 @@ long int *search_key(cHash_t *t, long int key)
         return NULL;
 }
 
+void insert_key(cHash_t *t, long int key)
+// Insere chave 'key' na struct de cuckoo hash.
+// *MUDAR* ignorar chaves duplicadas
+{
+    // Cálculo do endereço da chave caso ela seja inserida em T1.
+    long int *t1_pos = t->t1 + h1(key); 
+
+    if (*t1_pos == -1 || *t1_pos == -2) // *MUDAR* deixar < 0
+        *t1_pos = key;
+    else
+    {
+        // Cálculo do endereço da chave caso ela seja inserida em T2.
+        long int *t2_pos = t->t2 + h2(*t1_pos);
+
+        *t2_pos = *t1_pos;
+        *t1_pos = key;
+    }
+}
+
 void delete_key(cHash_t *t, long int key)
 // Exclui chave 'key' da estrutura hash, caso ela exista.
 {
@@ -78,11 +78,13 @@ void delete_key(cHash_t *t, long int key)
 }
 
 void initialize_output(output_t *out)
+// inicializar struct de output
 {
     out->s = 0;
 }
 
 void insert_output_value(output_t *out, long int *t, int table, int pos)
+// Inserir valor na posição pos da tabela table na struct de output.
 {
     int *s = &(out->s);
 
@@ -94,6 +96,7 @@ void insert_output_value(output_t *out, long int *t, int table, int pos)
 }
 
 void insert_output_values(output_t *out, cHash_t *t)
+// Inserir todos os valores válidos da tabela hash t na struct de output
 {
     for (int i = 0; i < SIZE; ++i)
     {
@@ -105,6 +108,7 @@ void insert_output_values(output_t *out, cHash_t *t)
 }
 
 int output_compare(const void *a, const void *b)
+// Função de comparação para ordenação do vetor da struct de output.
 {
     long int va = ((long int *)a)[0];
     long int vb = ((long int *)b)[0];   
