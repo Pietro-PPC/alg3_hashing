@@ -75,16 +75,43 @@ void delete_key(cHash_t *t, long int key)
         *t1_pos = -2;
 }
 
+void initialize_output(output_t *out)
+{
+    out->s = 0;
+}
+
+void insert_output_value(output_t *out, long int *t, int table, int pos)
+{
+    int *s = &(out->s);
+
+    out->v[*s][0] = t[pos];
+    out->v[*s][1] = table;
+    out->v[*s][2] = pos;
+
+    ++(*s);
+}
+
+void insert_output_values(output_t *out, cHash_t *t)
+{
+    for (int i = 0; i < SIZE; ++i)
+    {
+        if (t->t1[i] >= 0)
+            insert_output_value(out, t->t1, 1, i);
+        else if (t->t2[i] >= 0)
+            insert_output_value(out, t->t2, 2, i);
+    }
+}
 
 void print_output(cHash_t *t)
 // Imprime hash ordenado primariamente por chave, secundariamente pelo número da tabela
 // e terciariamente pela posição na tabela. 
 {
-    for (int i = 0; i < SIZE; ++i)
-    {
-        if (t->t1[i] >= 0)
-            printf("%ld,T1,%d\n", t->t1[i], i);
-        if (t->t2[i] >= 0)
-            printf("%ld,T2,%d\n", t->t2[i], i);
-    }
+    output_t out;
+
+    initialize_output(&out);
+    insert_output_values(&out, t);
+//    qsort_output(&out);
+
+    for (int i = 0; i < out.s; ++i)
+        printf("%ld,T%ld,%ld\n", out.v[i][0], out.v[i][1], out.v[i][2]);
 }
