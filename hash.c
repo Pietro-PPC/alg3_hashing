@@ -57,7 +57,6 @@ void insert_key(cHash_t *t, long int key)
     {
         // Cálculo do endereço da chave caso ela seja inserida em T2.
         long int *t2_pos = t->t2 + h2(*t1_pos);
-
         *t2_pos = *t1_pos;
         *t1_pos = key;
     }
@@ -102,7 +101,7 @@ void insert_output_values(output_t *out, cHash_t *t)
     {
         if (t->t1[i] >= 0)
             insert_output_value(out, t->t1, 1, i);
-        else if (t->t2[i] >= 0)
+        if (t->t2[i] >= 0)
             insert_output_value(out, t->t2, 2, i);
     }
 }
