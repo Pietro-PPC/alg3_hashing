@@ -45,18 +45,19 @@ long int *search_key(cHash_t *t, long int key)
 }
 
 void insert_key(cHash_t *t, long int key)
-// Insere chave 'key' na struct de cuckoo hash.
-// *MUDAR* ignorar chaves duplicadas
+// Insere chave 'key' na struct de cuckoo hash, ignorando chaves que já existem.
 {
     // Cálculo do endereço da chave caso ela seja inserida em T1.
     long int *t1_pos = t->t1 + h1(key); 
-
-    if (*t1_pos == -1 || *t1_pos == -2) // *MUDAR* deixar < 0
+    
+    if (search_key(t, key));
+    else if (*t1_pos < 0)
         *t1_pos = key;
     else
     {
         // Cálculo do endereço da chave caso ela seja inserida em T2.
         long int *t2_pos = t->t2 + h2(*t1_pos);
+        
         *t2_pos = *t1_pos;
         *t1_pos = key;
     }
