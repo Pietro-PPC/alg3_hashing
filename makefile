@@ -1,8 +1,8 @@
-all: hash.o myht.c
-	gcc hash.o myht.c -o myht -lm -Wall
+all: chash.o myht.c
+	gcc chash.o myht.c -o myht -lm -Wall
 
-hash.o: hash.c hash.h
-	gcc -c hash.c -Wall
+chash.o: chash.c chash.h
+	gcc -c chash.c -Wall
 
 clean:
 	rm -f *.o

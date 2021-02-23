@@ -1,5 +1,5 @@
-#ifndef __HASH__
-#define __HASH__
+#ifndef __CHASH__
+#define __CHASH__
 
 #define SIZE 11
 
